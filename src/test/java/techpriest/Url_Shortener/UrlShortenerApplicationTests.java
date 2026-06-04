@@ -1,4 +1,4 @@
-package com.techpriest.Url_Shortener;
+package techpriest.Url_Shortener;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

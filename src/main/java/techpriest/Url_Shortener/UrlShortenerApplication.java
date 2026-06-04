@@ -1,4 +1,4 @@
-package com.techpriest.Url_Shortener;
+package techpriest.Url_Shortener;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

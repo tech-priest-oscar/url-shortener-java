@@ -1,4 +1,4 @@
-package com.techpriest.Url_Shortener.models;
+package techpriest.Url_Shortener.models;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

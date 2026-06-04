@@ -1,4 +1,4 @@
-package com.techpriest.Url_Shortener.models;
+package techpriest.Url_Shortener.models;
 
 import java.time.Instant;
 import java.util.UUID;
@@ -17,8 +17,8 @@ public class Base {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    private Instant createdAt;
-    private Instant updatedAt;
+    final private Instant createdAt = Instant.now();
+    final private Instant updatedAt = Instant.now();
 
 
     public UUID getId() {

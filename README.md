@@ -73,6 +73,33 @@ The server runs on `http://localhost:8080`.
 | `created_at` | TIMESTAMP | Click timestamp |
 | `updated_at` | TIMESTAMP | Last update time |
 
+## Project Structure
+
+```
+Url-Shortener/
+├── src/
+│   ├── main/
+│   │   ├── java/com/techpriest/Url_Shortener/
+│   │   │   ├── controllers/
+│   │   │   ├── models/
+│   │   │   │   ├── Base.java
+│   │   │   │   ├── ClickLog.java
+│   │   │   │   └── Url.java
+│   │   │   ├── repositories/
+│   │   │   ├── services/
+│   │   │   └── UrlShortenerApplication.java
+│   │   └── resources/
+│   │       ├── application.properties
+│   │       └── db/migration/
+│   │           ├── V1__create_url_table.sql
+│   │           └── V2__create_click_log_table.sql
+│   └── test/
+├── .env                  # local environment variables (not committed)
+├── .gitignore
+├── Makefile
+└── pom.xml
+```
+
 ## Adding Migrations
 
 Create a new file in `src/main/resources/db/migration/` following the naming pattern:
