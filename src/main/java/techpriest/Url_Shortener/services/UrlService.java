@@ -1,11 +1,14 @@
 package techpriest.Url_Shortener.services;
 
+import java.util.UUID;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import techpriest.Url_Shortener.dto.UrlDataDto;
 import techpriest.Url_Shortener.dto.UrlResponseDto;
+import techpriest.Url_Shortener.exceptions.NotFoundException;
 import techpriest.Url_Shortener.models.Url;
 import techpriest.Url_Shortener.repositories.URLRepository;
 import techpriest.Url_Shortener.util.ShortCodeGenerator;
@@ -36,5 +39,15 @@ public class UrlService {
         }
         return urls.map(UrlResponseDto::from);
     }
+
+    public Void deleteUrl(UUID urlId) {
+        if (!urlRepository.existsById(urlId)) {
+            throw new NotFoundException("URL object not found");
+        }
+
+        this.urlRepository.deleteById(urlId);
+        return null;
+    }
+
 
 }
