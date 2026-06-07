@@ -1,4 +1,5 @@
 package techpriest.Url_Shortener.repositories;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.data.domain.Page;
@@ -14,4 +15,6 @@ public interface URLRepository extends JpaRepository<Url, UUID> {
 
     Page<Url> findByOriginalUrlContainingIgnoreCaseOrShortCodeContainingIgnoreCase(
             String originalUrl, String shortCode, Pageable pageable);
+
+    Optional<Url> findByShortCode(String shortCode);
 }

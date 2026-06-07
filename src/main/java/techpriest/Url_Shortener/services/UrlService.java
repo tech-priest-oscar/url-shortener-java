@@ -1,5 +1,6 @@
 package techpriest.Url_Shortener.services;
 
+import java.time.Instant;
 import java.util.UUID;
 
 import org.springframework.data.domain.Page;
@@ -16,9 +17,11 @@ import techpriest.Url_Shortener.util.ShortCodeGenerator;
 @Service
 public class UrlService {
     private final URLRepository urlRepository;
+    private final ClickLogService clickLogService;
 
-    public UrlService(URLRepository urlRepository) {
+    public UrlService(URLRepository urlRepository, ClickLogService clickLogService) {
         this.urlRepository = urlRepository;
+        this.clickLogService = clickLogService;
     }
 
     public Url createUrl(UrlDataDto urlDataDto) {
@@ -47,6 +50,19 @@ public class UrlService {
 
         this.urlRepository.deleteById(urlId);
         return null;
+    }
+
+    public String resolveAndTrack(String shortCode, String ipAddress, String userAgent) {
+        Url url = this.urlRepository.findByShortCode(shortCode)
+                .orElseThrow(() -> new NotFoundException("Short code not found: " + shortCode));
+
+        url.setClickCount(url.getClickCount() + 1);
+        url.setLastClickedAt(Instant.now());
+        this.urlRepository.save(url);
+
+        this.clickLogService.logClick(url, ipAddress, userAgent);
+
+        return url.getOriginalUrl();
     }
 
 
