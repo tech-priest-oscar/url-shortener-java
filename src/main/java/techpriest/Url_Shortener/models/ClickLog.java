@@ -17,7 +17,9 @@ public class ClickLog extends Base {
     private Url url;
 
     @Column(name = "ip_address")
-    private String IPAddress;
+    private String ipAddress;
+    
+    @Column(name = "user_agent")    
     private String userAgent;
 
     public Url getUrl() {
@@ -28,11 +30,11 @@ public class ClickLog extends Base {
         this.url = url;
     }
 
-    public String getIPAddress() {
-        return IPAddress;
+    public String getIpAddress() {
+        return ipAddress;
     }
-    public void setIPAddress(String IPAddress) {
-        this.IPAddress = IPAddress;
+    public void setIpAddress(String ipAddress) {
+        this.ipAddress = ipAddress;
     }
 
     public String getUserAgent() {

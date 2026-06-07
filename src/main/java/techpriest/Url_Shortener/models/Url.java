@@ -7,6 +7,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import java.util.Map;
+import java.util.HashMap;
 
 
 @Entity
@@ -58,6 +60,16 @@ public class Url extends Base {
 
     public void setClickLogs(List<ClickLog> clickLogs) {
         this.clickLogs = clickLogs;
+    }
+
+    public Map<String, String> toMap() {
+        Map<String, String> map = new HashMap<>();
+        map.put("id", getId().toString());
+        map.put("originalUrl", originalUrl);
+        map.put("shortCode", shortCode);
+        map.put("lastClickedAt", lastClickedAt.toString());
+        map.put("createdAt", getCreatedAt().toString());
+        return map;
     }
 
 }
