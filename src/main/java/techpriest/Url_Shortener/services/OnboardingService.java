@@ -2,8 +2,12 @@ package techpriest.Url_Shortener.services;
 
 import org.springframework.stereotype.Service;
 
+import techpriest.Url_Shortener.dto.AuthResponse;
 import techpriest.Url_Shortener.dto.CreateUserDto;
+import techpriest.Url_Shortener.dto.TokenPair;
 import techpriest.Url_Shortener.dto.UserRegistrationDto;
+import techpriest.Url_Shortener.dto.UserResponseDto;
+import techpriest.Url_Shortener.models.User;
 import techpriest.Url_Shortener.models.UserRole;
 import techpriest.Url_Shortener.models.UserStatus;
 
@@ -11,12 +15,14 @@ import techpriest.Url_Shortener.models.UserStatus;
 public class OnboardingService {
 
     private final UserService userService;
+    private final JwtService jwtService;
 
-    public OnboardingService(UserService userService) {
+    public OnboardingService(UserService userService, JwtService jwtService) {
         this.userService = userService;
+        this.jwtService = jwtService;
     }
 
-    public void registerUser(UserRegistrationDto userRegistrationDto) {
+    public AuthResponse registerUser(UserRegistrationDto userRegistrationDto) {
 
         if (userService.emailExists(userRegistrationDto.getEmail())) {
             throw new IllegalArgumentException("Email already in use");
@@ -34,9 +40,10 @@ public class OnboardingService {
         createUserDto.setRole(UserRole.USER);
         createUserDto.setStatus(UserStatus.ACTIVE);
 
-        userService.create(createUserDto);
+        User savedUser = userService.create(createUserDto);
+        TokenPair tokens = jwtService.generateTokens(savedUser);
 
-        
+        return new AuthResponse(UserResponseDto.from(savedUser), tokens);
     }
 
 }

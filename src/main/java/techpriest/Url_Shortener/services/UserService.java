@@ -17,7 +17,7 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public void create(CreateUserDto createUserDto) {
+    public User create(CreateUserDto createUserDto) {
         User user = new User();
         user.setFirstName(createUserDto.getFirstName());
         user.setLastName(createUserDto.getLastName());
@@ -25,7 +25,7 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(createUserDto.getPassword()));
         user.setStatus(createUserDto.getStatus());
         user.setRole(createUserDto.getRole());
-        userRepository.save(user);
+        return userRepository.save(user);
     }
 
     public boolean emailExists(String email) {
