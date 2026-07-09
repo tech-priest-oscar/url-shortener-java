@@ -8,22 +8,26 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "users")
 @Data
+@EqualsAndHashCode(callSuper = true)
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class User extends Base {
-    @Column(name = "email")
+    @Column(name = "email", length = 500)
     private String email;
-    
-    @Column(name = "first_name")    
+
+    @Column(name = "first_name", length = 255)
     private String firstName;
 
-    @Column(name = "last_name")    
+    @Column(name = "last_name", length = 255)
     private String lastName;
 
     @JsonIgnore
@@ -34,10 +38,10 @@ public class User extends Base {
     private boolean emailVerified;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "status")
+    @Column(name = "status", length = 255)
     private UserStatus status;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "role")
+    @Column(name = "role", length = 255)
     private UserRole role;
 }

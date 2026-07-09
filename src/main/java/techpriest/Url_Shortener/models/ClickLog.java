@@ -7,9 +7,11 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Entity
 @Data
+@EqualsAndHashCode(callSuper = true)
 @Table(name = "click_log") 
 public class ClickLog extends Base {
     public ClickLog() {}
@@ -18,10 +20,10 @@ public class ClickLog extends Base {
     @JoinColumn(name = "url_id", nullable = false)
     private Url url;
 
-    @Column(name = "ip_address")
+    @Column(name = "ip_address", length = 255)
     private String ipAddress;
     
-    @Column(name = "user_agent")    
+    @Column(name = "user_agent", length = 255)
     private String userAgent;
 
 }

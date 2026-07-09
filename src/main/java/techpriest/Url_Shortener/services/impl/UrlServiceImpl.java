@@ -3,12 +3,12 @@ package techpriest.Url_Shortener.services.impl;
 import java.time.Instant;
 import java.util.UUID;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import techpriest.Url_Shortener.dto.UrlDataDto;
 import techpriest.Url_Shortener.dto.UrlResponseDto;
@@ -30,13 +30,8 @@ public class UrlServiceImpl implements UrlService {
     private final UserRepository userRepository;
     private final ClickLogService clickLogService;
 
-//    public UrlService(URLRepository urlRepository, UserRepository userRepository,
-//            ClickLogService clickLogService) {
-//        this.urlRepository = urlRepository;
-//        this.userRepository = userRepository;
-//        this.clickLogService = clickLogService;
-//    }
 
+    @Override
     public ResponseWrapper<UrlResponseDto> createUrl(UrlDataDto urlDataDto, UUID userId) {
         Url url = new Url(urlDataDto.getUrl(), ShortCodeGenerator.generate());
 
@@ -58,6 +53,7 @@ public class UrlServiceImpl implements UrlService {
                 .build();
     }
 
+    @Override
     public Page<UrlResponseDto> getUrls(String search, Pageable pageable) {
         Page<Url> urls;
         if (search == null || search.isBlank()) {
@@ -70,6 +66,7 @@ public class UrlServiceImpl implements UrlService {
         return urls.map(UrlResponseDto::from);
     }
 
+    @Override
     public Void deleteUrl(UUID urlId) {
         if (!urlRepository.existsById(urlId)) {
             throw new NotFoundException("URL object not found");
@@ -79,6 +76,7 @@ public class UrlServiceImpl implements UrlService {
         return null;
     }
 
+    @Override
     public String resolveAndTrack(String shortCode, String ipAddress, String userAgent) {
         Url url = this.urlRepository.findByShortCode(shortCode)
                 .orElseThrow(() -> new NotFoundException("Short code not found: " + shortCode));

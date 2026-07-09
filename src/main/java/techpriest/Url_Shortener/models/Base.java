@@ -3,12 +3,18 @@ package techpriest.Url_Shortener.models;
 import java.time.Instant;
 import java.util.UUID;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
+import lombok.Data;
 
 
+@Data
 @MappedSuperclass
 public class Base {
     public Base() {}
@@ -17,21 +23,11 @@ public class Base {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    final private Instant createdAt = Instant.now();
-    final private Instant updatedAt = Instant.now();
+    @CreationTimestamp
+    @Column(updatable = false)
+    private Instant createdAt;
 
-
-    public UUID getId() {
-        return id;
-    }
-
-    public Instant getCreatedAt() {
-        return createdAt;
-    }
-
-    public Instant getUpdatedAt() {
-        return updatedAt;
-    }
-
+    @UpdateTimestamp
+    private Instant updatedAt;
 
 }
