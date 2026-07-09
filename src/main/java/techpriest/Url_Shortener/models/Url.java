@@ -9,10 +9,14 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.Data;
+import lombok.Getter;
+
 import java.util.Map;
 import java.util.HashMap;
 
 
+@Data
 @Entity
 @Table(name = "url")
 public class Url extends Base {
@@ -35,46 +39,6 @@ public class Url extends Base {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public String getOriginalUrl() {
-        return originalUrl;
-    }
-
-    public int getClickCount() {
-        return clickCount;
-    }
-
-    public void setClickCount(int clickCount) {
-        this.clickCount = clickCount;
-    }
-
-    public Instant getLastClickedAt() {
-        return lastClickedAt;
-    }
-
-    public void setLastClickedAt(Instant lastClickedAt) {
-        this.lastClickedAt = lastClickedAt;
-    }
-
-    public String getShortCode() {
-        return shortCode;
-    }
-
-    public List<ClickLog> getClickLogs() {
-        return clickLogs;
-    }
-
-    public void setClickLogs(List<ClickLog> clickLogs) {
-        this.clickLogs = clickLogs;
-    }
 
     public Map<String, String> toMap() {
         Map<String, String> map = new HashMap<>();

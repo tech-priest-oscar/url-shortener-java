@@ -1,6 +1,7 @@
 package techpriest.Url_Shortener.controllers;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -19,28 +20,29 @@ import org.springframework.web.bind.annotation.RestController;
 import jakarta.validation.Valid;
 import techpriest.Url_Shortener.dto.UrlDataDto;
 import techpriest.Url_Shortener.dto.UrlResponseDto;
-import techpriest.Url_Shortener.models.Url;
+import techpriest.Url_Shortener.dto.response.ResponseWrapper;
 import techpriest.Url_Shortener.services.UrlService;
 
 
 @RestController
 @RequestMapping("/api/urls")
 public class UrlController {
+
+
     private final UrlService urlService;
 
-    public UrlController(UrlService urlService) {
+    public UrlController(@Qualifier("urlUserService") UrlService urlService) {
         this.urlService = urlService;
         
     }
 
     @PostMapping("create")
-    public ResponseEntity<UrlResponseDto> createShortUrl(
+    public ResponseWrapper<UrlResponseDto> createShortUrl(
             @Valid @RequestBody UrlDataDto urlDataDto,
             @RequestAttribute(value = "userId", required = false) String userId
         ) {
         UUID creatorId = userId != null ? UUID.fromString(userId) : null;
-        UrlResponseDto url = this.urlService.createUrl(urlDataDto, creatorId);
-        return ResponseEntity.ok(url);
+        return this.urlService.createUrl(urlDataDto, creatorId);
     }
 
     @GetMapping("/")
