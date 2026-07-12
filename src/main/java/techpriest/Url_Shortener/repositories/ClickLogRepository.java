@@ -5,24 +5,22 @@ import java.util.UUID;
 import org.jspecify.annotations.NonNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import org.springframework.stereotype.Repository;
 
 import techpriest.Url_Shortener.models.ClickLog;
 
-@Repository
 public interface ClickLogRepository extends JpaRepository<ClickLog, UUID> {
     public List<ClickLog> findByUrlId(UUID urlId);
 
     @Override
-    @EntityGraph(attributePaths = "url")
+    @Query(value = "SELECT c FROM ClickLog c JOIN FETCH c.url",
+           countQuery = "SELECT count(c) FROM ClickLog c")
     Page<ClickLog> findAll(@NonNull Pageable pageable);
 
-    @EntityGraph(attributePaths = "url")
-    @Query("SELECT c FROM ClickLog c WHERE c.url.id = :urlId")
+    @Query(value = "SELECT c FROM ClickLog c JOIN FETCH c.url WHERE c.url.id = :urlId ORDER BY c.createdAt DESC",
+           countQuery = "SELECT count(c) FROM ClickLog c WHERE c.url.id = :urlId")
     Page<ClickLog> findByUrlIdOrderByCreatedAtDesc(@Param("urlId") UUID urlId, Pageable pageable);
 
 }
