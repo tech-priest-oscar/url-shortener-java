@@ -4,7 +4,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import techpriest.Url_Shortener.dto.CreateUserDto;
+import techpriest.Url_Shortener.exceptions.NotFoundException;
 import techpriest.Url_Shortener.models.User;
+import techpriest.Url_Shortener.models.UserStatus;
 import techpriest.Url_Shortener.repositories.UserRepository;
 import techpriest.Url_Shortener.services.UserService;
 
@@ -34,6 +36,19 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean emailExists(String email) {
         return userRepository.findByEmail(email).isPresent();
+    }
+
+    @Override
+    public User getByEmail(String email) {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new NotFoundException("No account found for this email"));
+    }
+
+    @Override
+    public User activate(User user) {
+        user.setEmailVerified(true);
+        user.setStatus(UserStatus.ACTIVE);
+        return userRepository.save(user);
     }
 
 }

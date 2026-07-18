@@ -45,9 +45,9 @@ public class Url extends Base {
     public Map<String, String> toMap() {
         Map<String, String> map = new HashMap<>();
         map.put("id", getId().toString());
-        map.put("originalUrl", originalUrl);
-        map.put("shortCode", shortCode);
-        map.put("createdAt", getCreatedAt().toString());
+        map.put("original_url", originalUrl);
+        map.put("short_code", shortCode);
+        map.put("created_at", getCreatedAt().toString());
         return map;
     }
 

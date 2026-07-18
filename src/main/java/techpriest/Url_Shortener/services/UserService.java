@@ -6,4 +6,6 @@ import techpriest.Url_Shortener.models.User;
 public interface UserService {
     User create(CreateUserDto createUserDto);
     boolean emailExists(String email);
+    User getByEmail(String email);
+    User activate(User user);
 }

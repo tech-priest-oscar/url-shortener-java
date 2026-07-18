@@ -7,9 +7,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
+import techpriest.Url_Shortener.dto.AuthResponse;
+import techpriest.Url_Shortener.dto.MessageResponse;
 import techpriest.Url_Shortener.dto.RegistrationResponse;
+import techpriest.Url_Shortener.dto.ResendOtpDto;
 import techpriest.Url_Shortener.dto.UserRegistrationDto;
-import techpriest.Url_Shortener.services.UserService;
+import techpriest.Url_Shortener.dto.VerifyOtpDto;
 import techpriest.Url_Shortener.services.OnboardingService;
 
 @RestController
@@ -17,7 +20,7 @@ import techpriest.Url_Shortener.services.OnboardingService;
 public class OnboardingController {
     private final OnboardingService onboardingService;
 
-    public OnboardingController(UserService userService, OnboardingService onboardingService) {
+    public OnboardingController(OnboardingService onboardingService) {
         this.onboardingService = onboardingService;
     }
 
@@ -27,9 +30,19 @@ public class OnboardingController {
         RegistrationResponse response = onboardingService.registerUser(userRegistrationDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
-    
+
+    @PostMapping("/verify-email")
+    public ResponseEntity<AuthResponse> verifyEmail(
+            @Valid @RequestBody VerifyOtpDto verifyOtpDto) {
+        AuthResponse response = onboardingService.verifyEmail(verifyOtpDto);
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/resend-otp")
+    public ResponseEntity<MessageResponse> resendOtp(
+            @Valid @RequestBody ResendOtpDto resendOtpDto) {
+        MessageResponse response = onboardingService.resendOtp(resendOtpDto);
+        return ResponseEntity.ok(response);
+    }
+
 }
-
-
-
-

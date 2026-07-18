@@ -11,10 +11,17 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+
 import jakarta.servlet.http.HttpServletRequest;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
+    /** Matches the snake_case naming strategy applied to all JSON responses. */
+    private static final PropertyNamingStrategies.SnakeCaseStrategy SNAKE_CASE =
+            new PropertyNamingStrategies.SnakeCaseStrategy();
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, Object>> handleValidation(
         MethodArgumentNotValidException exception, HttpServletRequest request) {
@@ -25,7 +32,7 @@ public class GlobalExceptionHandler {
 
             Map<String, String> fieldErrors = new LinkedHashMap<>();
             for (FieldError error : exception.getBindingResult().getFieldErrors()) {
-                fieldErrors.putIfAbsent(error.getField(), error.getDefaultMessage());
+                fieldErrors.putIfAbsent(SNAKE_CASE.translate(error.getField()), error.getDefaultMessage());
             }
 
             Map<String, Object> body = new LinkedHashMap<>();
