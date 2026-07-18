@@ -1,6 +1,5 @@
 package techpriest.Url_Shortener.services.impl;
 
-import java.time.Instant;
 import java.util.UUID;
 
 import org.springframework.data.domain.Page;
@@ -82,7 +81,6 @@ public class UrlServiceImpl implements UrlService {
                 .orElseThrow(() -> new NotFoundException("Short code not found: " + shortCode));
 
         url.setClickCount(url.getClickCount() + 1);
-        url.setLastClickedAt(Instant.now());
         this.urlRepository.save(url);
 
         this.clickLogService.logClick(url, ipAddress, userAgent);

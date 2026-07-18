@@ -20,7 +20,7 @@ public interface URLRepository extends JpaRepository<Url, UUID> {
     Optional<Url> findByShortCode(String shortCode);
 
     @Query("SELECT new techpriest.Url_Shortener.dto.proxy.UrlProxy(u.originalUrl," +
-            "u.clickCount,u.lastClickedAt," +
+            "u.clickCount," +
             "u.shortCode,us.id) FROM Url u JOIN u.user us WHERE u.shortCode = :shortCode")
     Optional<UrlProxy> findByShortCodeProxy(@Param("shortCode") String shortCode);
 

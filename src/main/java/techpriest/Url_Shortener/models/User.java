@@ -21,27 +21,27 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class User extends Base {
-    @Column(name = "email", length = 500)
+    @Column(name = "email", nullable = false, unique = true, columnDefinition = "TEXT")
     private String email;
 
-    @Column(name = "first_name", length = 255)
+    @Column(name = "first_name", nullable = false, columnDefinition = "TEXT")
     private String firstName;
 
-    @Column(name = "last_name", length = 255)
+    @Column(name = "last_name", nullable = false, columnDefinition = "TEXT")
     private String lastName;
 
     @JsonIgnore
-    @Column(name = "password")
+    @Column(name = "password", nullable = false, columnDefinition = "TEXT")
     private String password;
 
-    @Column(name = "email_verified")
+    @Column(name = "email_verified", nullable = false)
     private boolean emailVerified;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "status", length = 255)
+    @Column(name = "status", nullable = false, columnDefinition = "TEXT")
     private UserStatus status;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "role", length = 255)
+    @Column(name = "role", nullable = false, columnDefinition = "TEXT")
     private UserRole role;
 }

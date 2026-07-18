@@ -1,6 +1,5 @@
 package techpriest.Url_Shortener.models;
 
-import java.time.Instant;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,16 +31,15 @@ public class Url extends Base {
     @OneToMany(mappedBy = "url", fetch = FetchType.LAZY)
     private List<ClickLog> clickLogs;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(columnDefinition = "TEXT", nullable = false)
     private String originalUrl;
     private int clickCount = 0;
-    private Instant lastClickedAt = Instant.now();
 
-    @Column(length = 10)
+    @Column(length = 10, nullable = false, unique = true)
     private String shortCode;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     public Map<String, String> toMap() {
@@ -49,7 +47,6 @@ public class Url extends Base {
         map.put("id", getId().toString());
         map.put("originalUrl", originalUrl);
         map.put("shortCode", shortCode);
-        map.put("lastClickedAt", lastClickedAt.toString());
         map.put("createdAt", getCreatedAt().toString());
         return map;
     }

@@ -10,7 +10,6 @@ public record UrlResponseDto(
         String originalUrl,
         String shortCode,
         int clickCount,
-        Instant lastClickedAt,
         Instant createdAt) {
 
     /** Copies the wanted fields out of a Url entity into this DTO. */
@@ -20,7 +19,6 @@ public record UrlResponseDto(
                 url.getOriginalUrl(),
                 url.getShortCode(),
                 url.getClickCount(),
-                url.getLastClickedAt(),
                 url.getCreatedAt());
     }
 }

@@ -20,10 +20,10 @@ public class ClickLog extends Base {
     @JoinColumn(name = "url_id", nullable = false)
     private Url url;
 
-    @Column(name = "ip_address", length = 255)
+    @Column(name = "ip_address", length = 255, nullable = false)
     private String ipAddress;
-    
-    @Column(name = "user_agent", length = 255)
+
+    @Column(name = "user_agent", length = 255, nullable = false)
     private String userAgent;
 
 }
