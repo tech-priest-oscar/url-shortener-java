@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
-import techpriest.Url_Shortener.dto.AuthResponse;
+import techpriest.Url_Shortener.dto.RegistrationResponse;
 import techpriest.Url_Shortener.dto.UserRegistrationDto;
 import techpriest.Url_Shortener.services.UserService;
 import techpriest.Url_Shortener.services.OnboardingService;
@@ -22,9 +22,9 @@ public class OnboardingController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<AuthResponse> registerUser(
+    public ResponseEntity<RegistrationResponse> registerUser(
             @Valid @RequestBody UserRegistrationDto userRegistrationDto) {
-        AuthResponse response = onboardingService.registerUser(userRegistrationDto);
+        RegistrationResponse response = onboardingService.registerUser(userRegistrationDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
     

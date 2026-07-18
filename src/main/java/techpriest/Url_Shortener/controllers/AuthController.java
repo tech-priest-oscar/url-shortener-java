@@ -1,4 +1,5 @@
 package techpriest.Url_Shortener.controllers;
+import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,14 +15,11 @@ import techpriest.Url_Shortener.dto.TokenPair;
 import techpriest.Url_Shortener.services.AuthService;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/auth")
 public class AuthController {
 
     private final AuthService authService;
-
-    public AuthController(AuthService authService) {
-        this.authService = authService;
-    }
 
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@Valid @RequestBody LoginDto loginDto) {

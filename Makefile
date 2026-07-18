@@ -8,3 +8,6 @@ start-server:
 
 check-style:
 	./mvnw checkstyle:check
+
+compile:
+	./mvnw compile
