@@ -3,6 +3,7 @@ package techpriest.Url_Shortener.services.impl;
 import techpriest.Url_Shortener.services.EmailService;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
@@ -36,6 +37,7 @@ public class EmailServiceImpl implements EmailService {
         }
     }
 
+    @Async
     @Override
     public void sendOtpEmail(String to, String firstName, String otpCode) {
         Context context = new Context();
