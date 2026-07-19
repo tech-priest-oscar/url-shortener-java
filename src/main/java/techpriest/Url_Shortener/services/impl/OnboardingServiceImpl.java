@@ -1,5 +1,7 @@
 package techpriest.Url_Shortener.services.impl;
 
+import java.util.Map;
+
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
@@ -30,7 +32,11 @@ public class OnboardingServiceImpl implements OnboardingService {
     private final UserService userService;
     private final JwtService jwtService;
     private final OtpService otpService;
-    private final EmailService emailService;
+
+    // For now, we'll be using the "javaMailSenderService" implementation of EmailService. 
+    // In the future, we can add more implementations (e.g., SendGrid, AWS SES) and select 
+    // them based on configuration or user preference.
+    private final Map<String, EmailService> emailServices;
 
     @Override
     public RegistrationResponse registerUser(UserRegistrationDto userRegistrationDto) {
@@ -55,6 +61,7 @@ public class OnboardingServiceImpl implements OnboardingService {
 
         String otpCode = otpService.generateFor(savedUser);
         try {
+            EmailService emailService = emailServices.get("javaMailSenderService");
             emailService.sendOtpEmail(savedUser.getEmail(), savedUser.getFirstName(), otpCode);
         } catch (RuntimeException e) {
             log.error("Could not send OTP email to {}", savedUser.getEmail(), e);
@@ -92,6 +99,7 @@ public class OnboardingServiceImpl implements OnboardingService {
         }
 
         String otpCode = otpService.generateFor(user);
+        EmailService emailService = emailServices.get("javaMailSenderService");
         emailService.sendOtpEmail(user.getEmail(), user.getFirstName(), otpCode);
 
         return new MessageResponse("A new OTP has been sent to your email.");
